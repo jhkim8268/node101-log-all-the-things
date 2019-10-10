@@ -5,18 +5,19 @@ const csvFilePath='./data/log.csv';
 const csv=require('csvtojson');
 
 app.use((req, res, next) => {
-  let data = [];
+  let originData = [];
+
   let date = new Date();
   let isoDate = date.toISOString();
 
-  data.push(req.header('user-agent'));
-  data.push(isoDate);
-  data.push(req.method);
-  data.push(req.url);
-  data.push('HTTP/'+req.httpVersion);
-  data.push(res.statusCode);
+  originData.push(req.header('user-agent'));
+  originData.push(isoDate);
+  originData.push(req.method);
+  originData.push(req.url);
+  originData.push('HTTP/'+req.httpVersion);
+  originData.push(res.statusCode);
 
-  var csvData = data.join() + '\n';
+  var csvData = originData.join() + '\n';
   
   fs.appendFile('./data/log.csv', csvData, (err) => {
     if (err) throw err;
